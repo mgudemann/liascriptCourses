@@ -15,8 +15,12 @@ version: 0.0.1
 
 # Kryptographie
 
-Die Sammlung vieler Fragen aus den synchronen QA Veranstaltungen der Vorlesung
-**Kryptographie**
+In der Vorlesung zu Kryptographie geht es um moderne Anwendungen
+kryptographischer Operationen. Insbesondere wird das Rechnen auf elliptischen
+Kurven und das zugehörige Probleme des diskreten Logarithmus (DLP)
+betrachtet.
+
+[ZPA](https://zpa.cs.hm.edu/public/module/356/)
 
 ## GPG / PGP
 
@@ -34,7 +38,21 @@ Implementierung davon.
 
 ******
 
-## Breaking RSA
+## Public Key Kryptographie
+
+Bei Public key Kryptograhpie gibt es ein Schlüsselpaar zum Austausch von
+Nachrichten. Der öffentliche (**public key**) Schlüssel kann beliebig publiziert
+werden und dient zum **Verschlüsseln**, der private (**private key**) Schlüssel
+dient zum **Entschlüsseln**. Der private Schlüssel muss unbedingt geheim
+bleiben.
+
+Es gibt mehrere Verfahren zur public key Kryptographie. Alle basieren auf einer
+sogenannten **Falltürfunktion** die einfach zu berechnen aber schwierig zu
+invertieren ist. Das vermutlich bekannteste Beispiel dazu ist das RSA (Rivest,
+Shamir, Adleman) Verfahren welches auf der Primfaktorzerlegung sehr großer
+ganzer Zahlen basiert.
+
+### Breaking RSA
 
 Gegeben: eine Menge echter RSA public keys (1024 Bit)
 
@@ -43,7 +61,7 @@ Aufgabe: finde für einige davon die zugehörigen private keys
 Ist das möglich?
 
 [( )] Nein, zumindest nicht effizient weil Primfaktoren nicht effizient gefunden werden können.
-[( )] Ja, weil Primfaktorzerlegung mittlerweile effizient zu lösen ist PRIMES is in P
+[( )] Ja, weil Primfaktorzerlegung mittlerweile effizient zu lösen ist **PRIMES is in P**
 [(X)] Ja, falls es public keys gibt, die sich einen Primfaktor teilen. Dann kann mit dem euklidischen Algorithmus schnell der ggT bestimmt werden.
 ******
 
@@ -53,7 +71,36 @@ wurde es auch http://www.loyalty.org/~schoen/rsa/.
 
 ******
 
+### Weiterführende Links
+
+[Common factor attack on RSA](http://www.loyalty.org/~schoen/rsa/#challenge)
+
+[Not playing randomdly: ecDSA hack](https://medium.com/asecuritysite-when-bob-met-alice/not-playing-randomly-the-sony-ps3-and-bitcoin-crypto-hacks-c1fe92bea9bc)
+
 ## Hashfunktionen
+
+Hashfunktionen sind ein wesentlicher Bestandteil vieler moderner Anwendungen von
+Kryptographie. Sie dienen in der Regel dazu, dass *Prüfsummen* von Dateien
+bzw. Nachrichten berechnet werden.
+
+Es gibt verschiedene standardisierte Hashfunktionen. Einige sind als Tools auf
+der Kommandozeile verfügbar.
+
+ein paar Beispiele:
+
+```
+>  echo "Kryptographie" | md5sum
+f9300c33c0082e60e8850073081d1d62  -
+
+>  echo "Kryptographie" | shasum
+83a67d1760ef5ef6adbdff1a00009dd8124d872c  -
+
+> echo "Kryptographie" | sha256sum
+e93c804373c3ea62767a9cc82a78ad69012a6e9c474a93ce6a8f5a3f6f0885a8  -
+
+> echo "Kryptographie" | rhash --sha3-512 -
+04e5071bc6e54ccf174e2b10b843e264182c07eb6fc889210486d4104ec9a413baef63fc2259122d8544ba06f38ee539b36652eeacd7901183a4677c47aa3611  (stdin)
+```
 
 ### Hash-Kollisionen
 
