@@ -143,3 +143,27 @@ $\sqrt{2^n}=2^\frac{n}{2}$ Dokumente testet, dann findet man mit $P > 0.5$ eine
 Kollision.
 
 ***
+
+## Blockchain
+
+### UTxO
+
+Sei $t_0 = (\emptyset, [0 \mapsto (a_0, 1000)])$ eine initiale
+Transaktion, mit UTxO = $\{(t_0, 0) \mapsto (a_0, 1000)\}$. Danach
+sie die folgende Transaktion ausgeführt worden
+
+$t_1 = (\{(t_0, 0)\}, [0 \mapsto (a_1, 50), 1 \mapsto (a_0, 950)])$
+
+Wie sieht die neue UTxO aus?
+
+[( )] $\{(t_0, 0) \mapsto (a_0, 1000), (t_1, 1) \mapsto (a_0, 950), (t_1, 0)  \mapsto (a_1, 50)\}$
+[( )] $\{(t_1,0) \mapsto (a_0, 950), (t_1, 1) \mapsto (a_1, 50)\}$
+[(X)] $\{(t_1,1) \mapsto (a_0, 950), (t_1, 0) \mapsto (a_1, 50)\}$
+******
+
+Der Transaction Input $(t_0, 0)$ wird verbraucht und daraus werden in der
+Transaktion $t_1$ zwei neue Outputs erzeugt, $(t_1, 0) \mapsto (a_1, 50)$ und
+$(t_1, 1) \mapsto (a_0, 950)$, wobei der erste Output von $a_1$ und der zweite
+von $a_0$ ausgegeben werden kann.
+
+******
