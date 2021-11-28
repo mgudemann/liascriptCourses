@@ -139,7 +139,7 @@ gdw. $T(F)$ erfüllbar ist.
 
 Ist folgende aussagenlogische Formel erfüllbar?
 
-$(\neg A \vee u \vee \neg l) \wedge(\neg A \vee \neg u \vee \neg l) \wedge(A \vee \neg U \vee \neg L) \wedge(\neg A\vee u \vee l) \wedge(A \vee U \vee \neg L) \wedge(\neg A \vee \neg u \vee l) \wedge(A\vee U \vee L) \wedge(A \vee \neg U \vee L)$
+$(\neg A \vee U \vee \neg L) \wedge(\neg A \vee \neg U \vee \neg L) \wedge(A \vee \neg U \vee \neg L) \wedge(\neg A\vee U \vee L) \wedge(A \vee U \vee \neg L) \wedge(\neg A \vee \neg U \vee L) \wedge(A\vee U \vee L) \wedge(A \vee \neg U \vee L)$
 
 [( )] ja
 [(X)] nein
@@ -181,3 +181,60 @@ Wenn innerhalb einer Klausel die Konstante $\top$ auftaucht, dann ist die
 Klausel trivialerweise wahr.
 
 *****
+
+## SAT Solver
+
+### DIMACS
+
+Ist folgende DIMACS Form korrekt für
+$(\neg X_1 \vee X_2) \wedge (\neg X_1\vee X_3)$?
+
+```
+p cnf 3 3
+-3 1 0
+-3 2 0
+```
+
+[( )] ja
+[(X)] nein
+****
+
+Die Zeile `p cnf 3 3` definiert dass die CNF 3 Variablen und 3 Klauseln hat. Es sind aber nur 2 Klauseln gegeben.
+
+****
+
+### DIMACS
+
+Ist folgende DIMACS Form korrekt für
+$(\neg X_1 \vee X_2) \wedge (\neg X_1\vee X_3)$?
+
+```
+p cnf 3 2
+-3 1 0
+-3 2 0
+```
+
+[(X)] ja
+[( )] nein
+****
+
+Das ist korrekt, wenn man $X_1$ mit $3$, $X_2$ mit $1$ und $X_3$ mit der Variable $2$ identifiziert. Es gibt keine Notwendigkeit, z.B. $X_1$ auf $1$ abzubilden etc.
+
+****
+
+### Aktivierungsliteral
+
+Angenommen, wir haben eine Funktion `solve`, die eine CNF und eine Liste von Literalen `l` als Parameter erwartet. Die CNF soll auf SAT geprüft werden, die Literale in `l` werden als wahr *angenommen* (`Rest` ist der Rest der CNF)
+
+Was wäre dann richtig bei `solve((x1 \/ ~y \/ x2) /\ Rest, [y])`? (wobei
+`Rest'` entsteht wenn man in `Rest` `y` als wahr setzt)
+
+[(X)] ist äquivalent zu `solve((x1 \/ x2) /\ Rest', [])`
+[( )] ist auf jeden Fall UNSAT
+[( )] ist auf jeden Fall SAT
+****
+
+Unter der Annahme dass $y$ wahr ist, ist dann $~y$ falsch und damit kann man die
+erste Klausel zu $(x1 \vee x2)$ vereinfacht werden.
+
+****
