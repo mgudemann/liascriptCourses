@@ -67,3 +67,85 @@ Was bedeutet die Schlussregel?
 Die Induktionsregel besagt, dass wenn man eine Aussage $P$ für eine natürliche Zahl $m$ (meistens 0) zeigen kann **und** wenn man zeigen kann dass für alle natürlichen Zahlen aus der Aussage $P(n)$ auch $P(n+1)$ folgt, dann hat man die Aussage für alle natürlichen Zahlen $\geq m$ gezeigt. Damit hat man den Beweis der unendlich vielen Fälle auf 2 Fälle reduziert (Basis und Induktionsschritt).
 
 ****
+
+## Hoarelogik
+
+```c
+   {0 <= n}
+   i := 0;
+   s := 0;
+   while (i < n)
+     i := i + 1;
+     s := s + i;
+```
+
+Was ist eine Schleifen**variante** für das Programm?
+
+[( )] $i$
+[( )] $n$
+[(X)] $n - i$
+[( )] $i \cdot n$
+***
+
+Eine Schleifenvariante beweist Terminierung. Dazu muss man eine Funktion definieren, die nach unten beschränkt ist und streng monoton fällt.
+
+***
+
+## C
+
+### Unspecified Behavior
+
+```c
+   int f () {
+   int x = 0;
+   x = (x=1) + (x=2);
+          return x;
+   }
+```
+
+[( )] 0
+[( )] eine tritt eine Exception auf
+[( )] 3
+[( )] 4
+[(X)] kann man nicht sagen
+***
+
+Tatsächlich gibt es bei C neben **undefined** behavior auch **unspecified** behavior bei dem das Ergebnis je nach Implementierung unterschiedlich ausfallen kann.
+
+Die Reihenfolge der Auswerungen von Parametern ist nicht vorgegeben, deswegen kann es hier tatsächlich zu unterschiedlichen Ergebnissen kommen.
+
+***
+
+### CFG
+
+```c
+   int f(int n) {
+     int acc = 0;
+     int i = 0;
+     while (i < n) {
+         acc = acc + 2;
+         i++;
+       }
+     return acc;
+   }
+```
+
+Wie viele Basic Blocks hat dieser Code?
+
+[( )] 1
+[( )] 2
+[( )] 3
+[( )] 4
+[( )] mehr
+***
+
+Ein Basic Block ist ein linearer Codeabschnitt ohne Verzweigungen. Im Kontrollflussgraphen (CFG) sind Basic Blocks die Knoten und es gibt Kanten zwischen Knoten, wenn der Kontrollfluss sich von einem zum anderen Block bewegen kann.
+
+Aufzweigungen des CFG gibt es immer bei Schleifen oder Bedingungen. Mit **CBMC** kann man den CFG im GraphViz Format unter Linux oder MacOS erstellen mit:
+
+```
+> goto-cc -c datei.c
+> goto-instrument -dot datei.c | tail -n +2 | dot -Tpng > datei.png
+```
+
+***
