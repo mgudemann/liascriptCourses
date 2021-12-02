@@ -160,16 +160,25 @@ Wie sieht die neue UTxO aus?
 [( )] $\{(t_1,0) \mapsto (a_0, 950), (t_1, 1) \mapsto (a_1, 50)\}$
 [(X)] $\{(t_1,1) \mapsto (a_0, 950), (t_1, 0) \mapsto (a_1, 50)\}$
 
+******
+
+Der Transaction Input $(t_0, 0)$ wird verbraucht und daraus werden in der
+Transaktion $t_1$ zwei neue Outputs erzeugt, $(t_1, 0) \mapsto (a_1, 50)$ und
+$(t_1, 1) \mapsto (a_0, 950)$, wobei der erste Output von $a_1$ und der zweite
+von $a_0$ ausgegeben werden kann.
+
 ***
 
 ## Haskell Referenzen
+
+Im folgenden eine zusammenstellung an Code-Referenzen / Code-Schnippseln. Diese sollen helfen mit dem Typsystem von Haskell klar zu kommen.
 
 ### ToInteger
 Umwandlung von **natürlichen Zahlen** in einen **Integer** <br/>
 (P256K1._q ist eine Konstante vom Typ Natural)
 
-###### Fehler
 ```haskell
+-- Fehler
     * Couldn't match expected type `Integer'
                   with actual type `GHC.Natural.Natural'
     * In the expression: _q
@@ -179,8 +188,8 @@ Umwandlung von **natürlichen Zahlen** in einen **Integer** <br/>
    |        ^^^^^^^^^
 ```
 
-###### Umwandlung
 ```haskell
+-- Umwandlung
 demo :: Integer
 demo = toInteger P256K1._q
 ```
@@ -189,8 +198,8 @@ demo = toInteger P256K1._q
 
 Folgendes beispiel liet die Koordianten aus einem gegebenen Punkt und gibt diese als Tupel zurück. Hierfür wird der Punkt mit einem `as Pattern` geöffnet um dessen inhalte zu lesen und diese zu einem Integer zu konvertieren.
 
-###### Umwandlung
 ```haskell
+-- Umwandlung
 demo :: P256K1.PA -> (Integer, Integer)
 demo point@(A x y) = ((toInteger x), (toInteger y))
 ```
@@ -200,17 +209,10 @@ demo point@(A x y) = ((toInteger x), (toInteger y))
 Mit folgenden Vorgehen kann man Punkte in der repl **erstellen** um mit diesen zu testen. In folgenden werden zwei Punkte x und y erstellt, welche dann als paramenter im weiteren verlauf verwendet werden können um Methoden zu testen. Auch wird ein Point at infinity angelegt.
 
 ```haskell
+-- Haskell repl
 :m +Data.Curve.Weierstrass.SECP256K1       -- Bibliothek laden sodass diese in der repl zur verfügung steht
 x = Data.Curve.Weierstrass.SECP256K1.A 1 3 -- Punkt x erstellen
 y = Data.Curve.Weierstrass.SECP256K1.A 1 3 -- PUnkt y erstellen
 z = Data.Curve.Weierstrass.SECP256K1.O     -- Point at infinity
 ```
 
-******
-
-Der Transaction Input $(t_0, 0)$ wird verbraucht und daraus werden in der
-Transaktion $t_1$ zwei neue Outputs erzeugt, $(t_1, 0) \mapsto (a_1, 50)$ und
-$(t_1, 1) \mapsto (a_0, 950)$, wobei der erste Output von $a_1$ und der zweite
-von $a_0$ ausgegeben werden kann.
-
-******
