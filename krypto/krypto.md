@@ -9,7 +9,7 @@ logo: https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Orange_blue_publ
 
 email:  matthias.guedemann@hm.edu
 
-version: 0.0.1
+version: 0.0.2
 
 -->
 
