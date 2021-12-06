@@ -238,3 +238,66 @@ Unter der Annahme dass $y$ wahr ist, ist dann $~y$ falsch und damit kann man die
 erste Klausel zu $(x1 \vee x2)$ vereinfacht werden.
 
 ****
+
+
+### Alle Lösungen
+
+Sei folgende Formel gegeben: $X_1\vee X_2 \vee X_3$ (in DIMACS CNF):
+
+```
+p cnf 3 1
+1 2 3 0
+```
+
+Wie viele verschiedene Erfüllende Lösungen gibt es ?
+
+[( )] keine
+[( )] 1
+[( )] 3
+[( )] 8
+[(X)] 7
+*****
+
+Bis auf $X_1 = X_2 = X_3 = \bot$ erfüllen alle Möglichkeiten der Belegung der 3 Variablen die CNF. Da es bei 3 Variablen insgesamt 8 Möglichkeiten gibt sind als 7 davon erfüllend.
+
+*****
+
+
+## Entscheidungsprozeduren
+
+### Lineare Arithmetik 1
+
+
+![LP](imgs/09/SimplexDecisionProcedures.png)
+
+Formel $x + y \geq 2 \wedge 2x - y \geq 0 \wedge -x + 2y \geq 1$
+
+Gibt es ein Element $(x,y) \in \mathbb{R}^2$ so dass die Formel erfüllt ist?
+
+[(X)] ja
+[( )] nein
+*****
+
+Bei linearer Arithmetik ist das Problem erfüllbar, wenn es einen Vektor gibt, der gleichzeitig **alle** Nebenbedingungen erfüllt.
+
+Hier ist jeder Punkt in dem schraffierten Bereich eine erfüllende Belegung, da alle Ungleichungen erfüllt werden.
+
+*****
+
+### Lineare Arithmetik 2
+
+![LP](imgs/09/SimplexDecisionProcedures.png)
+
+Formel $x + y \geq 2 \wedge 2x - y \geq 0 \wedge -x + 2y \geq 1$
+
+Angenommen die Funktion ist $f(x, y) = y$ Wo liegt das Optimum
+(Minimum)?
+
+[(X)] beim Punkt C
+[( )] es gibt keines (Polyeder ist ja nach oben und rechts nicht beschränkt)
+[( )] oberhalb vom Punkt C auf der Gerade durch $(2,0)$ und $(0, 2)$
+****
+
+Das Polyeder bzw. der zulässige Raum ist zwar unbeschränkt, allerdings wird die Zielfunktion $f$ minimiert, indem man die $y$-Koordinate möglichst klein wählt. Außerdem gilt, dass wenn ein Optimalpunkt existiert, dann immer eine Ecke unter den Optimalpunkten ist. Da $C$ eine kleinere $y$-Koordinate hat als die 2. Ecke, ist $C$ also optimal.
+
+****

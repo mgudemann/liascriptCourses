@@ -149,3 +149,18 @@ Aufzweigungen des CFG gibt es immer bei Schleifen oder Bedingungen. Mit **CBMC**
 ```
 
 ***
+
+### RTE
+
+Was ist der Wertebereich eines C $int$?
+
+[( )] dazu gibt es im Standard keine Aussage
+[( )] $[-2^n, 2^n]$  z.B. für $n = 31$ oder $n = 63$
+[( )] mindestens $[-(2^n - 1), 2^n -1]$ z.B. für $n = 31$ oder $n = 63$
+[(X)] $[INT\_MIN, INT\_MAX]$ mit mindestens 16 Bit
+[( )] $[INT\_MIN, INT\_MAX]$ mit mindestens 32 Bit
+****
+
+Viel wird im C Standard dazu nicht garantiert. Insbesondere ist nicht gesagt, dass es in 2er-Komplement Darstellung passiert (d.h. von $-2^n-1$ bis $2^)
+
+****
