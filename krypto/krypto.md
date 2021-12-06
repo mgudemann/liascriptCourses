@@ -146,7 +146,7 @@ Kollision.
 
 ## Blockchain
 
-### UTxO
+### UTxO 1
 
 Sei $t_0 = (\emptyset, [0 \mapsto (a_0, 1000)])$ eine initiale
 Transaktion, mit UTxO = $\{(t_0, 0) \mapsto (a_0, 1000)\}$. Danach
@@ -167,3 +167,55 @@ $(t_1, 1) \mapsto (a_0, 950)$, wobei der erste Output von $a_1$ und der zweite
 von $a_0$ ausgegeben werden kann.
 
 ******
+
+### UTxO 2
+
+Sei $t_0 = (\emptyset, [0 \mapsto (a_0, 1000)])$ eine initiale Transaktion, mit UTxO = $\{(t_0, 0) \mapsto (a_0, 1000)\}$. Danach sie die folgende Transaktion ausgeführt worden
+
+$t_1 = (\{(t_0, 0)\}, [0 \mapsto (a_1, 50), 1 \mapsto (a_0, 950)])$
+
+Wie sieht die neue UTxO aus?
+
+.. raw:: latex
+
+   \small
+
+[( )] $\{(t_0, 0) \mapsto (a_0, 1000), (t_1, 1) \mapsto (a_0, 950), (t_1, 0)  \mapsto (a_1, 50)\}$
+[(X)] $\{(t_1,0) \mapsto (a_0, 950), (t_1, 1) \mapsto (a_1, 50)\}$
+[( )] $\{(t_1,1) \mapsto (a_0, 950), (t_1, 0) \mapsto (a_1, 50)\}$
+***
+
+Die Transaktion konsumiert die Menge der Inputs $\{(t_0, 0)\}$, die UTxO enthält anfangs nur ein Element. Damit ist 1 Output mit Wert 1000 verfügbar. Es werden in $t_1$ 2 Outputs erzeugt, wobei der Index 0 auf $(a_1, 50)$ und der Index 1 auf $(a_0, 950)$ abgebildet wird.
+
+Daraus entstehen dann 2 neue UTxO Einträge, $\{(t_1,0) \mapsto (a_0, 950), (t_1, 1) \mapsto (a_1, 50)\}$ beide referenzieren $t_1$, pro Index gibt es einen Eintrag und der entstandene Gesamtwert ist 1000 und damit zulässig.
+
+***
+
+### UTxO 3
+
+Kann bei der UTxO $\{(t_1,1) \mapsto (a_0, 950), (t_1, 0) \mapsto (a_1, 50)\}$ jemand, der nur von $a_1$ den private key kennt, folgende Transaktion ausführen?
+
+$t_2 = (\{(t_1, 0)\}, [0\mapsto (a_2, 50)])$
+[( )] nein
+[(X)] ja
+****
+
+Die Transaktion $t_2$ ist möglich. Es muss mit dem private key zu $a_1$ signiert werden, da diese UTxO nur von der Adresse $a_1$ ausgegeben werden kann. Die Transaktion erzeugt dann eine neue UTxO mit Wert 50, was dem Wert des Outputs von $(t_1,0)$ entspricht.
+
+****
+
+### UTxO 4
+
+Sei die UTxO $\{(t_1,1) \mapsto (a_0, 950), (t_1, 0) \mapsto (a_1, 50)\}$ und es wird folgende Transaktion ausgeführt:
+
+$t_2 = (\{(t_1, 0)\}, [0\mapsto (a_2, 50)])$
+
+Wie sieht dann die resultierende UTxO aus?
+
+[( )] $\{(t_1,1) \mapsto (a_0, 950), (t_1, 0) \mapsto (a_2, 50)\}$
+[(X)] $\{(t_1,1) \mapsto (a_0, 950), (t_2, 0) \mapsto (a_2, 50)\}$
+****
+
+Die beiden Antworten unterscheiden sich nur im zweiten Element und dort nur in der Adresse des Outputs. Das es die Transaktion $t_2$ ist, die diese neue UTxO erzeugt, muss dort auch auf diese Transaktion verwiesen werden.
+
+****
