@@ -169,7 +169,7 @@ von $a_0$ ausgegeben werden kann.
 
 ***
 
-## Haskell Referenzen
+# Haskell Referenzen
 
 Im folgenden eine zusammenstellung an Code-Referenzen / Code-Schnippseln. Diese sollen helfen mit dem Typsystem von Haskell klar zu kommen.
 
@@ -216,3 +216,29 @@ y = Data.Curve.Weierstrass.SECP256K1.A 1 3 -- PUnkt y erstellen
 z = Data.Curve.Weierstrass.SECP256K1.O     -- Point at infinity
 ```
 
+### Integer zu Punkte uwandeln
+
+`Disclaimer. Das folgende ist nur so in etwa mein eigenens verständniss. Keine Ahnung ob das wirklich so funktioniert ¯\_(ツ)_/¯`
+
+Um einen Integer in einen Punkt eines Galois Körpers umzuwandeln bedarf kann folgendes verwendet werden.
+GF.toP überträgt einen Interger in einem Punkt. Ich vermutem dass GF.Prime R hier den Galois - Körper bestimmt.
+ ```haskell
+demo :: Integer -> GF.Prime
+demo input = GF.toP s :: GF.Prime R 
+```
+
+### Inverse / reziproke berrechnen
+
+Folgende Wege habe ich gefunden um eine Inverse zu berrechnen. 
+
+```haskell
+-- Schöne schreibweise
+demo :: Float -> Float
+demo input = recip input
+```
+
+```haskell
+-- Technische Schreibweise.
+demo :: Float -> Float
+demo input = input**(-1)
+```
