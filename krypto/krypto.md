@@ -196,6 +196,7 @@ Daraus entstehen dann 2 neue UTxO Einträge, $\{(t_1,0) \mapsto (a_0, 950), (t_1
 Kann bei der UTxO $\{(t_1,1) \mapsto (a_0, 950), (t_1, 0) \mapsto (a_1, 50)\}$ jemand, der nur von $a_1$ den private key kennt, folgende Transaktion ausführen?
 
 $t_2 = (\{(t_1, 0)\}, [0\mapsto (a_2, 50)])$
+
 [( )] nein
 [(X)] ja
 ****
