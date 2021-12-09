@@ -268,7 +268,7 @@ Bis auf $X_1 = X_2 = X_3 = \bot$ erfüllen alle Möglichkeiten der Belegung der 
 ### Lineare Arithmetik 1
 
 
-![LP](http://mgu.cs.hm.edu/imgs/09/SimplexDecisionProcedures.png)
+![LP](http://mgu.cs.hm.edu/imgs/09/SimplexDecisionProcedures.png "aus Kroening, Stichman: Decision Procedures")
 
 Formel $x + y \geq 2 \wedge 2x - y \geq 0 \wedge -x + 2y \geq 1$
 
@@ -286,7 +286,7 @@ Hier ist jeder Punkt in dem schraffierten Bereich eine erfüllende Belegung, da 
 
 ### Lineare Arithmetik 2
 
-![LP](http://mgu.cs.hm.edu/imgs/09/SimplexDecisionProcedures.png)
+![LP](http://mgu.cs.hm.edu/imgs/09/SimplexDecisionProcedures.png "aus Kroening, Stichman: Decision Procedures")
 
 Formel $x + y \geq 2 \wedge 2x - y \geq 0 \wedge -x + 2y \geq 1$
 
