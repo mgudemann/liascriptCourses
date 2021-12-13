@@ -15,10 +15,7 @@ version: 0.0.2
 
 # Kryptographie
 
-In der Vorlesung zu Kryptographie geht es um moderne Anwendungen
-kryptographischer Operationen. Insbesondere wird das Rechnen auf elliptischen
-Kurven und das zugehörige Probleme des diskreten Logarithmus (DLP)
-betrachtet.
+In der Vorlesung zu Kryptographie geht es um moderne Anwendungen kryptographischer Operationen. Insbesondere wird das Rechnen auf elliptischen Kurven und das zugehörige Probleme des diskreten Logarithmus (DLP) betrachtet.
 
 [ZPA](https://zpa.cs.hm.edu/public/module/356/)
 
@@ -221,7 +218,7 @@ Die beiden Antworten unterscheiden sich nur im zweiten Element und dort nur in d
 # Haskell Referenzen
 
 
-Im folgenden eine zusammenstellung an Code-Referenzen / Code-Schnippseln. Diese sollen helfen mit dem Typsystem von Haskell klar zu kommen.
+Im folgenden eine Zusammenstellung an Code-Referenzen / Code-Schnippseln. Diese sollen helfen mit dem Typsystem von Haskell klar zu kommen.
 
 ## ToInteger
 
@@ -245,9 +242,9 @@ demo :: Integer
 demo = toInteger P256K1._q
 ```
 
-## P256K1 koordinaten lesen
+## P256K1 Koordinaten lesen
 
-Folgendes beispiel liet die Koordianten aus einem gegebenen Punkt und gibt diese als Tupel zurück. Hierfür wird der Punkt mit einem `as Pattern` geöffnet um dessen inhalte zu lesen und diese zu einem Integer zu konvertieren.
+Folgendes Beispiel liest die Koordinaten aus einem gegebenen Punkt und gibt diese als Tupel zurück. Hierfür wird der Punkt mit einem `as Pattern` geöffnet um dessen Inhalte zu lesen und diese zu einem Integer zu konvertieren.
 
 ```haskell
 -- Umwandlung
@@ -257,7 +254,7 @@ demo point@(A x y) = ((toInteger x), (toInteger y))
 
 ## P256K1 in REPL erstellen
 
-Mit folgenden Vorgehen kann man Punkte in der REPL **erstellen** um mit diesen zu testen. In folgenden werden zwei Punkte x und y erstellt, welche dann als paramenter im weiteren verlauf verwendet werden können um Methoden zu testen. Auch wird ein Point at infinity angelegt.
+Mit folgenden Vorgehen kann man Punkte in der REPL **erstellen** um mit diesen zu testen. In folgenden werden zwei Punkte x und y erstellt, welche dann als Parameter im weiteren verlauf verwendet werden können um Methoden zu testen. Auch wird ein Point at infinity angelegt.
 
 ```haskell
 -- Haskell repl
@@ -271,8 +268,7 @@ z = Data.Curve.Weierstrass.SECP256K1.O     -- Point at infinity
 
 `Disclaimer. Das folgende ist nur so in etwa mein eigenens verständniss. Keine Ahnung ob das wirklich so funktioniert ¯\_(ツ)_/¯`
 
-Um einen Integer in einen Punkt eines Galois Körpers umzuwandeln bedarf kann folgendes verwendet werden.
-GF.toP überträgt einen Integer in einem Punkt. Ich vermute dass GF.Prime R hier den Galois - Körper bestimmt.
+Um einen Integer in einen Punkt eines Galois Körpers umzuwandeln bedarf kann folgendes verwendet werden. GF.toP überträgt einen Integer in einem Punkt. Ich vermute dass GF.Prime R hier den Galois - Körper bestimmt.
  ```haskell
 demo :: Integer -> GF.Prime
 demo input = GF.toP s :: GF.Prime R
@@ -284,7 +280,7 @@ Folgende Wege habe ich gefunden um eine Inverse zu berechnen.
 
 ```haskell
 -- Schöne schreibweise
-demo :: Float -> Float
+demo :: Fractional a => a -> a
 demo input = recip input
 ```
 
