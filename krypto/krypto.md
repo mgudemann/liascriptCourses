@@ -161,10 +161,7 @@ Wie sieht die neue UTxO aus?
 [(X)] $\{(t_1,1) \mapsto (a_0, 950), (t_1, 0) \mapsto (a_1, 50)\}$
 ******
 
-Der Transaction Input $(t_0, 0)$ wird verbraucht und daraus werden in der
-Transaktion $t_1$ zwei neue Outputs erzeugt, $(t_1, 0) \mapsto (a_1, 50)$ und
-$(t_1, 1) \mapsto (a_0, 950)$, wobei der erste Output von $a_1$ und der zweite
-von $a_0$ ausgegeben werden kann.
+Der Transaction Input $(t_0, 0)$ wird verbraucht und daraus werden in der Transaktion $t_1$ zwei neue Outputs erzeugt, $(t_1, 0) \mapsto (a_1, 50)$ und $(t_1, 1) \mapsto (a_0, 950)$, wobei der erste Output von $a_1$ und der zweite von $a_0$ ausgegeben werden kann.
 
 ******
 
@@ -219,4 +216,82 @@ Wie sieht dann die resultierende UTxO aus?
 
 Die beiden Antworten unterscheiden sich nur im zweiten Element und dort nur in der Adresse des Outputs. Das es die Transaktion $t_2$ ist, die diese neue UTxO erzeugt, muss dort auch auf diese Transaktion verwiesen werden.
 
-****
+
+
+# Haskell Referenzen
+
+
+Im folgenden eine zusammenstellung an Code-Referenzen / Code-Schnippseln. Diese sollen helfen mit dem Typsystem von Haskell klar zu kommen.
+
+## ToInteger
+
+Umwandlung von **natürlichen Zahlen** in einen **Integer** <br/>
+(P256K1._q ist eine Konstante vom Typ Natural)
+
+```haskell
+-- Fehler
+    * Couldn't match expected type `Integer'
+                  with actual type `GHC.Natural.Natural'
+    * In the expression: _q
+      In an equation for `demo': demo = _q
+   |
+22 | demo = P256K1._q
+   |        ^^^^^^^^^
+```
+
+```haskell
+-- Umwandlung
+demo :: Integer
+demo = toInteger P256K1._q
+```
+
+## P256K1 koordinaten lesen
+
+Folgendes beispiel liet die Koordianten aus einem gegebenen Punkt und gibt diese als Tupel zurück. Hierfür wird der Punkt mit einem `as Pattern` geöffnet um dessen inhalte zu lesen und diese zu einem Integer zu konvertieren.
+
+```haskell
+-- Umwandlung
+demo :: P256K1.PA -> (Integer, Integer)
+demo point@(A x y) = ((toInteger x), (toInteger y))
+```
+
+## P256K1 in REPL erstellen
+
+Mit folgenden Vorgehen kann man Punkte in der REPL **erstellen** um mit diesen zu testen. In folgenden werden zwei Punkte x und y erstellt, welche dann als paramenter im weiteren verlauf verwendet werden können um Methoden zu testen. Auch wird ein Point at infinity angelegt.
+
+```haskell
+-- Haskell repl
+:m +Data.Curve.Weierstrass.SECP256K1       -- Bibliothek laden sodass diese in der repl zur verfügung steht
+x = Data.Curve.Weierstrass.SECP256K1.A 1 3 -- Punkt x erstellen
+y = Data.Curve.Weierstrass.SECP256K1.A 1 3 -- PUnkt y erstellen
+z = Data.Curve.Weierstrass.SECP256K1.O     -- Point at infinity
+```
+
+## Integer zu Punkte uwandeln
+
+`Disclaimer. Das folgende ist nur so in etwa mein eigenens verständniss. Keine Ahnung ob das wirklich so funktioniert ¯\_(ツ)_/¯`
+
+Um einen Integer in einen Punkt eines Galois Körpers umzuwandeln bedarf kann folgendes verwendet werden.
+GF.toP überträgt einen Integer in einem Punkt. Ich vermute dass GF.Prime R hier den Galois - Körper bestimmt.
+ ```haskell
+demo :: Integer -> GF.Prime
+demo input = GF.toP s :: GF.Prime R
+```
+
+## Inverse / Reziproke berechnen
+
+Folgende Wege habe ich gefunden um eine Inverse zu berechnen.
+
+```haskell
+-- Schöne schreibweise
+demo :: Float -> Float
+demo input = recip input
+```
+
+eine Annäherung mit float / double:
+
+```haskell
+-- Technische Schreibweise.
+demo :: Float -> Float
+demo input = input**(-1)
+```
