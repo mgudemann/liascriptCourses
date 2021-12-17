@@ -213,6 +213,71 @@ Wie sieht dann die resultierende UTxO aus?
 
 Die beiden Antworten unterscheiden sich nur im zweiten Element und dort nur in der Adresse des Outputs. Das es die Transaktion $t_2$ ist, die diese neue UTxO erzeugt, muss dort auch auf diese Transaktion verwiesen werden.
 
+## PFS
+
+### KES
+
+Was bringt eine Unterscheidung zwischen Hot / Cold Keys?
+
+[( )] Der cold key nützt sich nicht ab
+[( )] Geringere Wahrscheinlichkeit dass Kollisionen bei Signaturen entstehen
+[(X)] Geringere Angriffsfläche zur Kompromittierung des cold keys
+****
+
+Der Vorteil eines hot/cold Key Schemas ist, dass die Angriffsfläche auf den cold-key verkleinert wird. Dieser muss i.d.R. nicht auf einem Rechner vorliegen, der auch online ist. Damit muss ein Angreifer deutlich mehr Aufwand betreiben, um den Key kompromittieren zu können.
+
+****
+
+### Cold Keys
+
+Was sind weitere Varianten von cold keys?
+
+
+[[X]] Paper Wallets
+[[X]] 2FA key (z.B. U2F oder FIDO2 Standard)
+[[X]] Hardware Wallets
+[[ ]] Verschlüsselte PGP/GPG Keyrings
+*****
+
+Mit Ausnahme des PGP Keyrings sind alles Beispiele für Cold keys, in dem Sinn dass die keys nicht auf einem Rechner der online ist im Arbeitsspeicher vorhanden sind.
+
+*****
+
+## Commitments
+
+### Pedersen Commitment
+
+Pedersen Commitments sind eine Möglichkeit, ein Commitment Schema zu realisieren. Seien $g$ und $h$ Generatoren einer zyklischen  Gruppe. Dann kann man $Commit$ definieren als $Commit(m, r) = g^m\cdot h^r$
+
+Wäre es nicht ausreichend wenn man nur $g^m$ nutzt ?
+
+[( )] ja
+[(X)] nein, kein hiding
+[( )] nein, kein binding
+*****
+
+Insbesondere wenn die Message $m$ nur aus einer kleinen Menge möglicher Nachrichten stammt, liegt hier kein hiding vor. Ein Angreifer könnte alle Nachrichten enumerieren und somit herausfinden zu welcher Message das Commitment angelegt wurde.
+
+*****
+
+### Pedersen Commitment 2
+
+Pedersen Commitments sind eine Möglichkeit, ein Commitment Schema zu realisieren. Seien $g$ und $h$ Generatoren einer zyklischen  Gruppe. Dann kann man $Commit$ definieren als $Commit(m, r) = g^m\cdot h^r$
+
+Der Faktor $r$ heißt auch **Verblindungsfaktor**.
+
+Wäre es nicht ausreichend wenn man nur $g^(r + m)$ nutzt, also keinen zweiten
+Generator?
+
+[( )] ja
+[( )] nein, kein hiding
+[(X)] nein, kein binding
+*****
+
+Hier ist das Problem, dass der Prover einfach ein anderes $r$ bei der Öffnung präsentieren könnte. Sei z.B. $m=1$ und initial $r=4$. Wenn nun $m=0$ von Vorteil wäre könnte der Prover $m=0$ und $r=5$ präsentieren, was das Commitment validieren würde.
+
+*****
+
 
 
 # Haskell Referenzen
