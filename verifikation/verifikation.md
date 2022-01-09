@@ -236,3 +236,24 @@ Wie analysiert man ob der Branch mit ``res = -1;`` genommen wird?
 Wenn `guard` gelten soll, dann gilt `a < 0` und damit wäre das gesamte Ergebnis `res = -1`.
 
 ****
+
+## Abstrakte Interpretation
+
+Abstrakte **Addition** für Intervalle. :math:`[a,b] + [c,d]` bedeutet, dass ein
+beliebiges Element aus :math:`[a,b]` zu einem beliebigen Element aus
+:math:`[c,d]` addiert wird.
+
+Damit: :math:`[a, b] \hat{+} [c, d] = [a+c, b+d]`
+
+Wie viele Elemente enthält das Interval :math:`[a+c, b+d]`
+
+[( )] :math:`b - a + 1`
+[( )] :math:`d - c`
+[( )] :math:`(b - a)*(d - c)`
+[(X)] :math:`b+d - (a + c) + 1`
+[( )] :math:`b+d - (a + c)`
+****
+
+Die Anzahl der Elemente eines Intervals :math:`[a,b]` entspricht :math:`b - a + 1`, z.B. :math:`[2,5]` enthält :math:`5 - 2 + 1 = 4` Elemente.
+
+****
