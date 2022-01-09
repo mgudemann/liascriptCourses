@@ -164,7 +164,7 @@ Der Transaction Input $(t_0, 0)$ wird verbraucht und daraus werden in der Transa
 
 ### UTxO 2
 
-Sei $t_0 = (\emptyset, [0 \mapsto (a_0, 1000)])$ eine initiale Transaktion, mit UTxO = $\{(t_0, 0) \mapsto (a_0, 1000)\}$. Danach sie die folgende Transaktion ausgeführt worden
+Sei $t_0 = (\emptyset, [0 \mapsto (a_0, 1000)])$ eine initiale Transaktion, mit UTxO = $\{(t_0, 0) \mapsto (a_0, 1000)\}$. Danach ist die folgende Transaktion ausgeführt worden
 
 $t_1 = (\{(t_0, 0)\}, [0 \mapsto (a_1, 50), 1 \mapsto (a_0, 950)])$
 
