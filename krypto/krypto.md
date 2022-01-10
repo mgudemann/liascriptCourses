@@ -147,7 +147,7 @@ Kollision.
 
 Sei $t_0 = (\emptyset, [0 \mapsto (a_0, 1000)])$ eine initiale
 Transaktion, mit UTxO = $\{(t_0, 0) \mapsto (a_0, 1000)\}$. Danach
-sie die folgende Transaktion ausgeführt worden
+ist die folgende Transaktion ausgeführt worden
 
 $t_1 = (\{(t_0, 0)\}, [0 \mapsto (a_1, 50), 1 \mapsto (a_0, 950)])$
 
@@ -164,15 +164,11 @@ Der Transaction Input $(t_0, 0)$ wird verbraucht und daraus werden in der Transa
 
 ### UTxO 2
 
-Sei $t_0 = (\emptyset, [0 \mapsto (a_0, 1000)])$ eine initiale Transaktion, mit UTxO = $\{(t_0, 0) \mapsto (a_0, 1000)\}$. Danach sie die folgende Transaktion ausgeführt worden
+Sei $t_0 = (\emptyset, [0 \mapsto (a_0, 1000)])$ eine initiale Transaktion, mit UTxO = $\{(t_0, 0) \mapsto (a_0, 1000)\}$. Danach ist die folgende Transaktion ausgeführt worden
 
 $t_1 = (\{(t_0, 0)\}, [0 \mapsto (a_1, 50), 1 \mapsto (a_0, 950)])$
 
 Wie sieht die neue UTxO aus?
-
-.. raw:: latex
-
-   \small
 
 [( )] $\{(t_0, 0) \mapsto (a_0, 1000), (t_1, 1) \mapsto (a_0, 950), (t_1, 0)  \mapsto (a_1, 50)\}$
 [(X)] $\{(t_1,0) \mapsto (a_0, 950), (t_1, 1) \mapsto (a_1, 50)\}$
@@ -212,6 +208,8 @@ Wie sieht dann die resultierende UTxO aus?
 ****
 
 Die beiden Antworten unterscheiden sich nur im zweiten Element und dort nur in der Adresse des Outputs. Das es die Transaktion $t_2$ ist, die diese neue UTxO erzeugt, muss dort auch auf diese Transaktion verwiesen werden.
+
+****
 
 ## PFS
 
@@ -266,7 +264,7 @@ Pedersen Commitments sind eine Möglichkeit, ein Commitment Schema zu realisiere
 
 Der Faktor $r$ heißt auch **Verblindungsfaktor**.
 
-Wäre es nicht ausreichend wenn man nur $g^(r + m)$ nutzt, also keinen zweiten
+Wäre es nicht ausreichend wenn man nur g^(r + m)^ nutzt, also keinen zweiten
 Generator?
 
 [( )] ja
