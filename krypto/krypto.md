@@ -264,7 +264,7 @@ Pedersen Commitments sind eine Möglichkeit, ein Commitment Schema zu realisiere
 
 Der Faktor $r$ heißt auch **Verblindungsfaktor**.
 
-Wäre es nicht ausreichend wenn man nur $g^(r + m)^$ nutzt, also keinen zweiten
+Wäre es nicht ausreichend wenn man nur g^(r + m)^ nutzt, also keinen zweiten
 Generator?
 
 [( )] ja
