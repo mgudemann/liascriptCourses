@@ -213,6 +213,8 @@ Wie sieht dann die resultierende UTxO aus?
 
 Die beiden Antworten unterscheiden sich nur im zweiten Element und dort nur in der Adresse des Outputs. Das es die Transaktion $t_2$ ist, die diese neue UTxO erzeugt, muss dort auch auf diese Transaktion verwiesen werden.
 
+****
+
 ## PFS
 
 ### KES
