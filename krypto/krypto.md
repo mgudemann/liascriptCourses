@@ -357,7 +357,7 @@ demo input = input**(-1)
 
 
 ### Debugging mit D.trace
-Um eine Logausgabe zu einzelnen Schritten in der Anwendung zu bekommen kann man D.trace verwenden, welche "kontrolliert" Seiteneffekte erzeugt, um eine Ausgabe im Terminal zu machen. (D.trace muss explizit importiert werden)
+Um eine Logausgabe zu einzelnen Schritten in der Anwendung zu bekommen kann man D.trace verwenden, welche "kontrolliert" Seiteneffekte erzeugt, um eine Ausgabe im Terminal zu machen (das Modul `Debug.Trace` muss dazu explizit importiert werden).
 
 ```haskell
 import qualified Debug.Trace as D
