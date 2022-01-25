@@ -9,7 +9,7 @@ logo: https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Orange_blue_publ
 
 email:  matthias.guedemann@hm.edu
 
-version: 0.0.1
+version: 0.0.2
 
 -->
 
@@ -149,3 +149,111 @@ Aufzweigungen des CFG gibt es immer bei Schleifen oder Bedingungen. Mit **CBMC**
 ```
 
 ***
+
+### RTE
+
+Was ist der Wertebereich eines C $int$?
+
+[( )] dazu gibt es im Standard keine Aussage
+[( )] $[-2^n, 2^n]$  z.B. für $n = 31$ oder $n = 63$
+[( )] mindestens $[-(2^n - 1), 2^n -1]$ z.B. für $n = 31$ oder $n = 63$
+[(X)] $[INT\_MIN, INT\_MAX]$ mit mindestens 16 Bit
+[( )] $[INT\_MIN, INT\_MAX]$ mit mindestens 32 Bit
+****
+
+Viel wird im C Standard dazu nicht garantiert. Insbesondere ist nicht gesagt, dass es in 2er-Komplement Darstellung passiert (d.h. von $-2^n-1$ bis $2^)
+
+****
+
+## Bounded Modelchecking
+
+### BMC 1
+
+```c
+   int sum = 0;
+   for (int i = 0; i < n; i++)
+     sum += i;
+```
+Kann man mit BMC hier beweisen, dass $sum < 2$ **keine** Invariante ist?
+[( )] nein
+[(X)] ja
+****
+
+Dies ist keine Invariante und damit kann man das Erreichen eines Zustandes mit $sum \geq 2$ mit BMC zeigen.
+
+****
+
+### BMC 2
+
+```
+   (set-logic QF_LIA)
+   ;; declarations
+   (assert (= 0 sum0))
+   (assert (= 0 i0))
+   (assert (= sum1 (+ sum0 i0)))
+   (assert (= i1 (+ i0 1)))
+   (assert (= sum2 (+ i1 sum1)))
+   (assert (= i2 (+ i1 1)))
+   (assert (= sum3 (+ sum2 i2)))
+   (assert (= i3 (+ i2 1)))
+   (assert (<= 2 sum3))
+   (check-sat)
+```
+
+Ist dieses Constraint/SMT Problem erfüllbar?
+
+[(X)] ja
+[( )]
+****
+
+Das Problem entspricht der SSA Form des vorherigen Programms mit der negierten Invariante und ist damit erfüllbar.
+
+****
+
+### BMC 3
+
+```
+   (set-logic QF_LIA)
+
+   (assert (= res0 0))                                      int res = 0;
+   (assert (= guard1 (< a 0)))                              if (a < 0)
+   (assert (= res1 (- 1)))                                    res = -1;
+   (assert (= guard2 (> a 0)))                              else if (a > 0)
+   (assert (= res2 1))                                        res = 1;
+   (assert (= res3 (ite (and (not guard1) (not guard2))
+      res0 res2)))
+   (assert (= res4 (ite guard1 res1 res3)))                 return res;
+   (check-sat)
+```
+
+Wie analysiert man ob der Branch mit ``res = -1;`` genommen wird?
+
+[( )] ``(assert (= res1 (- 1)))``
+[(X)] ``(assert guard1)``
+[( )] ``(assert (not guard2))``
+****
+
+Wenn `guard` gelten soll, dann gilt `a < 0` und damit wäre das gesamte Ergebnis `res = -1`.
+
+****
+
+## Abstrakte Interpretation
+
+Abstrakte **Addition** für Intervalle. :math:`[a,b] + [c,d]` bedeutet, dass ein
+beliebiges Element aus :math:`[a,b]` zu einem beliebigen Element aus
+:math:`[c,d]` addiert wird.
+
+Damit: :math:`[a, b] \hat{+} [c, d] = [a+c, b+d]`
+
+Wie viele Elemente enthält das Interval :math:`[a+c, b+d]`
+
+[( )] :math:`b - a + 1`
+[( )] :math:`d - c`
+[( )] :math:`(b - a)*(d - c)`
+[(X)] :math:`b+d - (a + c) + 1`
+[( )] :math:`b+d - (a + c)`
+****
+
+Die Anzahl der Elemente eines Intervals :math:`[a,b]` entspricht :math:`b - a + 1`, z.B. :math:`[2,5]` enthält :math:`5 - 2 + 1 = 4` Elemente.
+
+****

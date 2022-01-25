@@ -9,7 +9,7 @@ logo: https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Orange_blue_publ
 
 email:  matthias.guedemann@hm.edu
 
-version: 0.0.1
+version: 0.0.2
 
 -->
 
@@ -238,3 +238,136 @@ Unter der Annahme dass $y$ wahr ist, ist dann $~y$ falsch und damit kann man die
 erste Klausel zu $(x1 \vee x2)$ vereinfacht werden.
 
 ****
+
+
+### Alle Lösungen
+
+Sei folgende Formel gegeben: $X_1\vee X_2 \vee X_3$ (in DIMACS CNF):
+
+```
+p cnf 3 1
+1 2 3 0
+```
+
+Wie viele verschiedene Erfüllende Lösungen gibt es ?
+
+[( )] keine
+[( )] 1
+[( )] 3
+[( )] 8
+[(X)] 7
+*****
+
+Bis auf $X_1 = X_2 = X_3 = \bot$ erfüllen alle Möglichkeiten der Belegung der 3 Variablen die CNF. Da es bei 3 Variablen insgesamt 8 Möglichkeiten gibt sind als 7 davon erfüllend.
+
+*****
+
+
+## Entscheidungsprozeduren
+
+### Lineare Arithmetik 1
+
+
+![LP](http://mgu.cs.hm.edu/imgs/09/SimplexDecisionProcedures.png "aus Kroening, Stichman: Decision Procedures")
+
+Formel $x + y \geq 2 \wedge 2x - y \geq 0 \wedge -x + 2y \geq 1$
+
+Gibt es ein Element $(x,y) \in \mathbb{R}^2$ so dass die Formel erfüllt ist?
+
+[(X)] ja
+[( )] nein
+*****
+
+Bei linearer Arithmetik ist das Problem erfüllbar, wenn es einen Vektor gibt, der gleichzeitig **alle** Nebenbedingungen erfüllt.
+
+Hier ist jeder Punkt in dem schraffierten Bereich eine erfüllende Belegung, da alle Ungleichungen erfüllt werden.
+
+*****
+
+### Lineare Arithmetik 2
+
+![LP](http://mgu.cs.hm.edu/imgs/09/SimplexDecisionProcedures.png "aus Kroening, Stichman: Decision Procedures")
+
+Formel $x + y \geq 2 \wedge 2x - y \geq 0 \wedge -x + 2y \geq 1$
+
+Angenommen die Funktion ist $f(x, y) = y$ Wo liegt das Optimum
+(Minimum)?
+
+[(X)] beim Punkt C
+[( )] es gibt keines (Polyeder ist ja nach oben und rechts nicht beschränkt)
+[( )] oberhalb vom Punkt C auf der Gerade durch $(2,0)$ und $(0, 2)$
+****
+
+Das Polyeder bzw. der zulässige Raum ist zwar unbeschränkt, allerdings wird die Zielfunktion $f$ minimiert, indem man die $y$-Koordinate möglichst klein wählt. Außerdem gilt, dass wenn ein Optimalpunkt existiert, dann immer eine Ecke unter den Optimalpunkten ist. Da $C$ eine kleinere $y$-Koordinate hat als die 2. Ecke, ist $C$ also optimal.
+
+****
+
+## UF
+
+```haskell
+   progA = (out0_a === in0_a)
+        /\ (out1_a === m out0_a in0_a)
+        /\ (out2_a === m out1_a in0_a)
+   progB  = (out0_b === m (m in0_b in0_b) in0_b)
+```
+
+Die Ausgaben sind ``out2_a`` und ``out0_b``. Wie kann man Äquivalenz
+verifizieren?
+
+[( )] ``progA === progB``
+[( )] ``out2_a === out0_b``?
+[( )] ``(in0_a === in0_b) --> (out2_a === out0_b)``
+[( )] ``(in0_a === in0_b) --> (progA === progB) /\ (out2_a === out0_b)``
+[(X)] ``((in0_a === in0_b) /\ progA /\ progB) --> (out2_a === out0_b)``
+******
+
+In der Aussage zur Verifikation der Äquivalenz muss gefordert werden, dass als Voraussetzung gilt, dass die Eingaben gleich sind und dass die Gleichungen gelten die die Programme spezifizieren. Daraus muss dann folgen, dass die Ausgaben gleich sind.
+
+******
+
+
+## Differenzlogik
+
+### Job-Shop Problem
+
+-  Ein Plan bestimmt für jeden Task $v$ eine Startzeit $S(v)$ auf der zugehörigen Maschine $M(v)$ und Dauer $t(v)$
+
+-  Ein Plan ist **durchführbar** wenn
+
+   -  Für alle Tasks $v$ die Startzeit nicht negtiv ist $S(v) \geq 0$
+
+   -  Für jedes Pair aufeinanderfolgender Tasks $v_i, v_j$ gilt
+
+      $S(v_i) + t(v_i) \leq S(v_j)$
+
+   -  Alle Tasks $v_i, v_j$ auf der gleichen Maschine
+      überschneiden sich nicht
+
+      $S(v_i) + t(v_i)\leq S(v_j) \vee S(v_j) + t(v_j)\leq S(v_i)$
+
+Wie formuliert man daraus ein Problem in der Sprache der Differenzlogik?
+
+z.B. für $S(v_i) + t(v_i) \leq S(v_j)$
+
+[( )] $S(v_i) - t(v_i) \geq -S(v_j)$
+[(X)] $S(v_i) - S(v_j) \leq -t(v_i)$
+[( )] $t(v_i) - S(v_j) \leq -S(v_i)$
+*****
+
+Es muss die Form für DL eingehalten werden, also $x - y \leq C$ mit einer Konstanten $C$. $S(v)$ modelliert ist *Startzeit* und ist jeweils eine Variable, für die eine Belegung gesucht wird. Die Bearbeitungdauer $t(v)$ ist eine Konstante.
+
+Damit ist $S(v_i)-S(v_j)\leq -t(v_i)$ die äquivalente Darstellung für DL
+
+*****
+
+### DL Entscheidungsprozedur
+
+Welcher Algorithmus eignet sich, um einen Kreis mit negativem Gesamtgewicht in einem Graphen zu finden?
+
+[(X)] Bellman-Ford
+[( )] Dijkstra
+*****
+
+Der Algorithmus von Bellman-Ford findet explizit Kreise mit negativem Gesamtgewicht. Der Algorithmus von Dijkstra ist für Graphen mit negativem Kantengewicht nicht korrekt!
+
+*****

@@ -9,16 +9,13 @@ logo: https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Orange_blue_publ
 
 email:  matthias.guedemann@hm.edu
 
-version: 0.0.1
+version: 1.0.0
 
 -->
 
 # Kryptographie
 
-In der Vorlesung zu Kryptographie geht es um moderne Anwendungen
-kryptographischer Operationen. Insbesondere wird das Rechnen auf elliptischen
-Kurven und das zugehörige Probleme des diskreten Logarithmus (DLP)
-betrachtet.
+In der Vorlesung zu Kryptographie geht es um moderne Anwendungen kryptographischer Operationen. Insbesondere wird das Rechnen auf elliptischen Kurven und das zugehörige Probleme des diskreten Logarithmus (DLP) betrachtet.
 
 [ZPA](https://zpa.cs.hm.edu/public/module/356/)
 
@@ -146,11 +143,11 @@ Kollision.
 
 ## Blockchain
 
-### UTxO
+### UTxO 1
 
 Sei $t_0 = (\emptyset, [0 \mapsto (a_0, 1000)])$ eine initiale
 Transaktion, mit UTxO = $\{(t_0, 0) \mapsto (a_0, 1000)\}$. Danach
-sie die folgende Transaktion ausgeführt worden
+ist die folgende Transaktion ausgeführt worden
 
 $t_1 = (\{(t_0, 0)\}, [0 \mapsto (a_1, 50), 1 \mapsto (a_0, 950)])$
 
@@ -159,21 +156,135 @@ Wie sieht die neue UTxO aus?
 [( )] $\{(t_0, 0) \mapsto (a_0, 1000), (t_1, 1) \mapsto (a_0, 950), (t_1, 0)  \mapsto (a_1, 50)\}$
 [( )] $\{(t_1,0) \mapsto (a_0, 950), (t_1, 1) \mapsto (a_1, 50)\}$
 [(X)] $\{(t_1,1) \mapsto (a_0, 950), (t_1, 0) \mapsto (a_1, 50)\}$
+******
+
+Der Transaction Input $(t_0, 0)$ wird verbraucht und daraus werden in der Transaktion $t_1$ zwei neue Outputs erzeugt, $(t_1, 0) \mapsto (a_1, 50)$ und $(t_1, 1) \mapsto (a_0, 950)$, wobei der erste Output von $a_1$ und der zweite von $a_0$ ausgegeben werden kann.
 
 ******
 
-Der Transaction Input $(t_0, 0)$ wird verbraucht und daraus werden in der
-Transaktion $t_1$ zwei neue Outputs erzeugt, $(t_1, 0) \mapsto (a_1, 50)$ und
-$(t_1, 1) \mapsto (a_0, 950)$, wobei der erste Output von $a_1$ und der zweite
-von $a_0$ ausgegeben werden kann.
+### UTxO 2
+
+Sei $t_0 = (\emptyset, [0 \mapsto (a_0, 1000)])$ eine initiale Transaktion, mit UTxO = $\{(t_0, 0) \mapsto (a_0, 1000)\}$. Danach ist die folgende Transaktion ausgeführt worden
+
+$t_1 = (\{(t_0, 0)\}, [0 \mapsto (a_0, 950), 1 \mapsto (a_1, 50)])$
+
+Wie sieht die neue UTxO aus?
+
+[( )] $\{(t_0, 0) \mapsto (a_0, 1000), (t_1, 1) \mapsto (a_0, 950), (t_1, 0)  \mapsto (a_1, 50)\}$
+[(X)] $\{(t_1,0) \mapsto (a_0, 950), (t_1, 1) \mapsto (a_1, 50)\}$
+[( )] $\{(t_1,1) \mapsto (a_0, 950), (t_1, 0) \mapsto (a_1, 50)\}$
+***
+
+Die Transaktion konsumiert die Menge der Inputs $\{(t_0, 0)\}$, die UTxO enthält anfangs nur ein Element. Damit ist 1 Output mit Wert 1000 verfügbar. Es werden in $t_1$ 2 Outputs erzeugt, wobei der Index 0 auf $(a_1, 50)$ und der Index 1 auf $(a_0, 950)$ abgebildet wird.
+
+Daraus entstehen dann 2 neue UTxO Einträge, $\{(t_1,0) \mapsto (a_0, 950), (t_1, 1) \mapsto (a_1, 50)\}$ beide referenzieren $t_1$, pro Index gibt es einen Eintrag und der entstandene Gesamtwert ist 1000 und damit zulässig.
 
 ***
 
+### UTxO 3
+
+Kann bei der UTxO $\{(t_1,1) \mapsto (a_0, 950), (t_1, 0) \mapsto (a_1, 50)\}$ jemand, der nur von $a_1$ den private key kennt, folgende Transaktion ausführen?
+
+$t_2 = (\{(t_1, 0)\}, [0\mapsto (a_2, 50)])$
+
+[( )] nein
+[(X)] ja
+****
+
+Die Transaktion $t_2$ ist möglich. Es muss mit dem private key zu $a_1$ signiert werden, da diese UTxO nur von der Adresse $a_1$ ausgegeben werden kann. Die Transaktion erzeugt dann eine neue UTxO mit Wert 50, was dem Wert des Outputs von $(t_1,0)$ entspricht.
+
+****
+
+### UTxO 4
+
+Sei die UTxO $\{(t_1,1) \mapsto (a_0, 950), (t_1, 0) \mapsto (a_1, 50)\}$ und es wird folgende Transaktion ausgeführt:
+
+$t_2 = (\{(t_1, 0)\}, [0\mapsto (a_2, 50)])$
+
+Wie sieht dann die resultierende UTxO aus?
+
+[( )] $\{(t_1,1) \mapsto (a_0, 950), (t_1, 0) \mapsto (a_2, 50)\}$
+[(X)] $\{(t_1,1) \mapsto (a_0, 950), (t_2, 0) \mapsto (a_2, 50)\}$
+****
+
+Die beiden Antworten unterscheiden sich nur im zweiten Element und dort nur in der Adresse des Outputs. Das es die Transaktion $t_2$ ist, die diese neue UTxO erzeugt, muss dort auch auf diese Transaktion verwiesen werden.
+
+****
+
+## PFS
+
+### KES
+
+Was bringt eine Unterscheidung zwischen Hot / Cold Keys?
+
+[( )] Der cold key nützt sich nicht ab
+[( )] Geringere Wahrscheinlichkeit dass Kollisionen bei Signaturen entstehen
+[(X)] Geringere Angriffsfläche zur Kompromittierung des cold keys
+****
+
+Der Vorteil eines hot/cold Key Schemas ist, dass die Angriffsfläche auf den cold-key verkleinert wird. Dieser muss i.d.R. nicht auf einem Rechner vorliegen, der auch online ist. Damit muss ein Angreifer deutlich mehr Aufwand betreiben, um den Key kompromittieren zu können.
+
+****
+
+### Cold Keys
+
+Was sind weitere Varianten von cold keys?
+
+
+[[X]] Paper Wallets
+[[X]] 2FA key (z.B. U2F oder FIDO2 Standard)
+[[X]] Hardware Wallets
+[[ ]] Verschlüsselte PGP/GPG Keyrings
+*****
+
+Mit Ausnahme des PGP Keyrings sind alles Beispiele für Cold keys, in dem Sinn dass die keys nicht auf einem Rechner der online ist im Arbeitsspeicher vorhanden sind.
+
+*****
+
+## Commitments
+
+### Pedersen Commitment
+
+Pedersen Commitments sind eine Möglichkeit, ein Commitment Schema zu realisieren. Seien $g$ und $h$ Generatoren einer zyklischen  Gruppe. Dann kann man $Commit$ definieren als $Commit(m, r) = g^m\cdot h^r$
+
+Wäre es nicht ausreichend wenn man nur $g^m$ nutzt ?
+
+[( )] ja
+[(X)] nein, kein hiding
+[( )] nein, kein binding
+*****
+
+Insbesondere wenn die Message $m$ nur aus einer kleinen Menge möglicher Nachrichten stammt, liegt hier kein hiding vor. Ein Angreifer könnte alle Nachrichten enumerieren und somit herausfinden zu welcher Message das Commitment angelegt wurde.
+
+*****
+
+### Pedersen Commitment 2
+
+Pedersen Commitments sind eine Möglichkeit, ein Commitment Schema zu realisieren. Seien $g$ und $h$ Generatoren einer zyklischen  Gruppe. Dann kann man $Commit$ definieren als $Commit(m, r) = g^m\cdot h^r$
+
+Der Faktor $r$ heißt auch **Verblindungsfaktor**.
+
+Wäre es nicht ausreichend wenn man nur $g^{r + m}$ nutzt, also keinen zweiten
+Generator?
+
+[( )] ja
+[( )] nein, kein hiding
+[(X)] nein, kein binding
+*****
+
+Hier ist das Problem, dass der Prover einfach ein anderes $r$ bei der Öffnung präsentieren könnte. Sei z.B. $m=1$ und initial $r=4$. Wenn nun $m=0$ von Vorteil wäre könnte der Prover $m=0$ und $r=5$ präsentieren, was das Commitment validieren würde.
+
+*****
+
+
+
 # Haskell Referenzen
 
-Im folgenden eine zusammenstellung an Code-Referenzen / Code-Schnippseln. Diese sollen helfen mit dem Typsystem von Haskell klar zu kommen.
 
-### ToInteger
+Im folgenden eine Zusammenstellung an Code-Referenzen / Code-Schnippseln. Diese sollen helfen mit dem Typsystem von Haskell klar zu kommen.
+
+## ToInteger
+
 Umwandlung von **natürlichen Zahlen** in einen **Integer** <br/>
 (P256K1._q ist eine Konstante vom Typ Natural)
 
@@ -194,9 +305,9 @@ demo :: Integer
 demo = toInteger P256K1._q
 ```
 
-### P256K1 koordinaten lesen
+## P256K1 Koordinaten lesen
 
-Folgendes beispiel liet die Koordianten aus einem gegebenen Punkt und gibt diese als Tupel zurück. Hierfür wird der Punkt mit einem `as Pattern` geöffnet um dessen inhalte zu lesen und diese zu einem Integer zu konvertieren.
+Folgendes Beispiel liest die Koordinaten aus einem gegebenen Punkt und gibt diese als Tupel zurück. Hierfür wird der Punkt mit einem `as Pattern` geöffnet um dessen Inhalte zu lesen und diese zu einem Integer zu konvertieren.
 
 ```haskell
 -- Umwandlung
@@ -204,9 +315,9 @@ demo :: P256K1.PA -> (Integer, Integer)
 demo point@(A x y) = ((toInteger x), (toInteger y))
 ```
 
-### P256K1 in repl erstellen
+## P256K1 in REPL erstellen
 
-Mit folgenden Vorgehen kann man Punkte in der repl **erstellen** um mit diesen zu testen. In folgenden werden zwei Punkte x und y erstellt, welche dann als paramenter im weiteren verlauf verwendet werden können um Methoden zu testen. Auch wird ein Point at infinity angelegt.
+Mit folgenden Vorgehen kann man Punkte in der REPL **erstellen** um mit diesen zu testen. In folgenden werden zwei Punkte x und y erstellt, welche dann als Parameter im weiteren verlauf verwendet werden können um Methoden zu testen. Auch wird ein Point at infinity angelegt.
 
 ```haskell
 -- Haskell repl
@@ -216,32 +327,34 @@ y = Data.Curve.Weierstrass.SECP256K1.A 1 3 -- PUnkt y erstellen
 z = Data.Curve.Weierstrass.SECP256K1.O     -- Point at infinity
 ```
 
-### Integer zu Punkte uwandeln
+## Integer zu Punkte uwandeln
 
-`Disclaimer. Das folgende ist nur so in etwa mein eigenens verständniss. Keine Ahnung ob das wirklich so funktioniert`
+`Disclaimer. Das folgende ist nur so in etwa mein eigenens verständniss.`
 
-Um einen Integer in einen Punkt eines Galois Körpers umzuwandeln bedarf kann folgendes verwendet werden.
-GF.toP überträgt einen Interger in einem Punkt. Ich vermutem dass GF.Prime R hier den Galois - Körper bestimmt.
-```haskell
+Um einen Integer in einen Punkt eines Galois Körpers umzuwandeln bedarf kann folgendes verwendet werden. GF.toP überträgt einen Integer in einem Punkt. Ich vermute dass GF.Prime R hier den Galois - Körper bestimmt.
+ ```haskell
 demo :: Integer -> GF.Prime
-demo input = GF.toP s :: GF.Prime R 
+demo input = GF.toP s :: GF.Prime R
 ```
 
-### Inverse / reziproke berrechnen
+## Inverse / Reziproke berechnen
 
-Folgende Wege habe ich gefunden um eine Inverse zu berrechnen. 
+Folgende Wege habe ich gefunden um eine Inverse zu berechnen.
 
 ```haskell
 -- Schöne schreibweise
-demo :: Float -> Float
+demo :: Fractional a => a -> a
 demo input = recip input
 ```
+
+eine Annäherung mit float / double:
 
 ```haskell
 -- Technische Schreibweise.
 demo :: Float -> Float
 demo input = input**(-1)
 ```
+
 
 ### Debugging mit D.trace
 Um eine Logausgabe zu einzelnen Schritten in der Anwendung zu bekommen kann man D.trace verwenden, welche "kontrolliert" seiteneffekte erzeugt, um eine Ausgabe im Terminal zu machen. (D.trace muss explizit imprtiert werden)
