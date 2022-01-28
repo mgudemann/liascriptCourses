@@ -107,8 +107,6 @@ ist. Welche Formel ist dann analog in disjunktiver Normalform (**DNF**)?
 [[X]] $A \vee B$
 [[X]] $A \vee (B \wedge C)$
 [[X]] $A$
-[[X]] alle
-[[ ]] keine
 
 
 ### Tseitin Transformation
