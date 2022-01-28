@@ -329,7 +329,7 @@ z = Data.Curve.Weierstrass.SECP256K1.O     -- Point at infinity
 
 ## Integer zu Punkte uwandeln
 
-`Disclaimer. Das folgende ist nur so in etwa mein eigenens verständniss. Keine Ahnung ob das wirklich so funktioniert ¯\_(ツ)_/¯`
+`Disclaimer. Das folgende ist nur so in etwa mein eigenens verständniss.`
 
 Um einen Integer in einen Punkt eines Galois Körpers umzuwandeln bedarf kann folgendes verwendet werden. GF.toP überträgt einen Integer in einem Punkt. Ich vermute dass GF.Prime R hier den Galois - Körper bestimmt.
  ```haskell
@@ -353,4 +353,26 @@ eine Annäherung mit float / double:
 -- Technische Schreibweise.
 demo :: Float -> Float
 demo input = input**(-1)
+```
+
+
+### Debugging mit D.trace
+Um eine Logausgabe zu einzelnen Schritten in der Anwendung zu bekommen kann man D.trace verwenden, welche "kontrolliert" Seiteneffekte erzeugt, um eine Ausgabe im Terminal zu machen (das Modul `Debug.Trace` muss dazu explizit importiert werden).
+
+```haskell
+import qualified Debug.Trace as D
+
+testDebugTrace :: Integer -> Integer
+testDebugTrace test = D.trace ("x: " ++ show x ++" y: " ++ show y) (z)
+  where x = 2 * test
+        y = 4 * x
+        z = 8 * y
+```
+
+```
+# stack repl
+*Main ECVRF Paths_crypto_pos PoS Util.Encoding Util.Types Util.Util> testDebugTrace 4
+x: 8 y: 32
+256
+*Main ECVRF Paths_crypto_pos PoS Util.Encoding Util.Types Util.Util>
 ```
